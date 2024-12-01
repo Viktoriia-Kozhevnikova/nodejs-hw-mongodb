@@ -7,7 +7,8 @@ export function errorHandler(error, req, res, next) {
         req.log.error(error);
         res.status(500).send({
             status: 500,
-            // message: "Internal Server Error",
             message: "Something went wrong",
         });
     }
+
+
