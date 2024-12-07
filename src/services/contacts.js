@@ -27,7 +27,7 @@ export async function getAllContacts({ page, perPage, sortBy, sortOrder, filters
         page,
         perPage,
         totalItems: total,
-        totalPages: totalPages - page > 0,
+        totalPages,
         hasPreviousPage: totalPages > 1,
         hasNextPage: page < totalPages
 
