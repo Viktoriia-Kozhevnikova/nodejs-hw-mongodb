@@ -1,11 +1,13 @@
 import cors from "cors";
 import express from "express";
+import cookieParser from "cookie-parser";
+
 import pinoHttp from "pino-http";
-import contactsRouter from "./routers/contacts.js";
+import contactsRoutes from "./routers/contacts.js";
+import authRoutes from "./routers/auth.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
-
-
+import { authenticate } from "./middlewares/authenticate.js";
 
 
 export async function setupServer() {
@@ -16,10 +18,11 @@ export async function setupServer() {
 
     app.use(logger);
     app.use(cors());
+    app.use(cookieParser());
     app.use(express.json());
 
-
-    app.use("/contacts", contactsRouter);
+    app.use("/auth", authRoutes);
+    app.use("/contacts", authenticate, contactsRoutes);
 
 
     app.use(notFoundHandler);

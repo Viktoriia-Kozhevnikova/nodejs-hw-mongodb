@@ -1,9 +1,9 @@
 import { Contact } from "../models/contact.js";
 
-export async function getAllContacts({ page, perPage, sortBy, sortOrder, filters }) {
+export async function getAllContacts({ page, perPage, sortBy, sortOrder, filters, ownerId }) {
 
     const skip = page > 0 ? (page - 1) * perPage : 0;
-    const contactQuery = Contact.find();
+    const contactQuery = Contact.find({ownerId});
 
 
      if (filters.contactType) {
@@ -34,8 +34,9 @@ export async function getAllContacts({ page, perPage, sortBy, sortOrder, filters
     };
 }
 
-export async function getContactById(contactId) {
-    return await Contact.findById(contactId);
+export async function getContactById(contactId, ownerId) {
+    // return await Contact.findById(contactId);
+    return await Contact.findOne({ _id: contactId, ownerId });
 }
 
 export async function createContact(contact) {

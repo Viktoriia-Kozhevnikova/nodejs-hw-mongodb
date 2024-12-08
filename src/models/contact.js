@@ -21,6 +21,10 @@ const contactSchema = new mongoose.Schema({
         enum: ['work', 'home', 'personal'],
         required: true,
         default: 'personal'
+    },
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }
 },
     {
