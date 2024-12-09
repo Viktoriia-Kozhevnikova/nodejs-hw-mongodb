@@ -12,7 +12,7 @@ export async function authenticate(req, res, next) {
 
 
         const [bearer, accessToken] = authorization.split(" ", 2);
-
+console.log("Bearer:", bearer, "Access Token:", accessToken);
 
         if (bearer !== "Bearer" || typeof accessToken !== "string") {
             return next(createHttpError(401, "Please provide access token"));
@@ -20,7 +20,7 @@ export async function authenticate(req, res, next) {
 
 
         const session = await Session.findOne({ accessToken });
-
+console.log("Session:", session);
 
         if (session === null) {
             return next(createHttpError(401, "Session not found"));
@@ -33,7 +33,7 @@ export async function authenticate(req, res, next) {
 
 
         const user = await User.findById(session.userId);
-
+console.log("User:", user);
         if (user === null) {
             return next(createHttpError(401, "User not found"));
         }

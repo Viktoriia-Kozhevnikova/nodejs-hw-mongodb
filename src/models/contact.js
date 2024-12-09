@@ -22,7 +22,7 @@ const contactSchema = new mongoose.Schema({
         required: true,
         default: 'personal'
     },
-    ownerId: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true
     }

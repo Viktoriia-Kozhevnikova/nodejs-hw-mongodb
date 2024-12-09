@@ -10,7 +10,7 @@ export const getAllContactsHandler = async (req, res) => {
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const filters = parseFilterParams(req.query);
 
-    const contacts = await getAllContacts({page, perPage, sortBy, sortOrder, filters, ownerId: req.user.id});
+    const contacts = await getAllContacts({page, perPage, sortBy, sortOrder, filters, userId: req.user.id});
     res.status(200).send({
         status: 200,
         message: "Successfully found contacts!",
@@ -21,16 +21,15 @@ export const getAllContactsHandler = async (req, res) => {
 
 export const getContactByIdHandler = async (req, res) => {
     const { contactId } = req.params;
+    const { id: userId } = req.user;
 
-    const contact = await getContactById(contactId);
+
+    const contact = await getContactById(contactId, userId);
 
     if (!contact) {
         throw new createHttpError.NotFound("Contact not found");
     }
 
-    // if (contact.ownerId.toString() !== req.user.id.toString()) {
-    //     throw new createHttpError.NotFound("Contact not found");
-    // }
 
     res.status(200).send({
         status: 200,
@@ -47,7 +46,7 @@ export async function createContactController(req, res) {
         email: req.body.email,
         isFavourite: req.body.isFavourite,
         contactType: req.body.contactType,
-        ownerId: req.user.id
+        userId: req.user.id
     };
 
     const result = await createContact(contact);
@@ -61,6 +60,7 @@ export async function createContactController(req, res) {
 
 export async function updateContactController(req, res) {
     const { contactId } = req.params;
+     const { id: userId } = req.user;
 
     const contact = {
         name: req.body.name,
@@ -71,7 +71,8 @@ export async function updateContactController(req, res) {
     };
 
 
-    const result = await updateContact(contactId, contact);
+    const result = await updateContact(contactId, userId, contact);
+
     if (result === null) {
         throw new createHttpError.NotFound("Contact not found");
     }
@@ -87,7 +88,10 @@ export async function updateContactController(req, res) {
 
 export async function deleteContactController(req, res) {
     const { contactId } = req.params;
-    const result = await deleteContact(contactId);
+    const { id: userId } = req.user;
+
+    const result = await deleteContact(contactId, userId);
+
     if (result === null) {
         throw new createHttpError.NotFound("Contact not found");
     }
