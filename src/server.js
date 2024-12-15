@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
+import path from "node:path";
 
 import pinoHttp from "pino-http";
 import contactsRoutes from "./routers/contacts.js";
@@ -15,6 +16,8 @@ export async function setupServer() {
     const PORT = process.env.PORT || 3000;
 
     const logger = pinoHttp();
+
+    app.use("/photos", express.static(path.resolve("public/photos")));
 
     app.use(logger);
     app.use(cors());
