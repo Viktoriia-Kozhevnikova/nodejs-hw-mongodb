@@ -1,7 +1,10 @@
+import * as fs from "node:fs";
+import path from "node:path";
+
 import cors from "cors";
 import express from "express";
 import cookieParser from "cookie-parser";
-import path from "node:path";
+import swaggerUI from "swagger-ui-express";
 
 import pinoHttp from "pino-http";
 import contactsRoutes from "./routers/contacts.js";
@@ -11,11 +14,16 @@ import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { authenticate } from "./middlewares/authenticate.js";
 
 
+
 export async function setupServer() {
+    const swaggerDocument = JSON.parse(fs.readFileSync(path.resolve('docs/swagger.json'), 'utf-8'),);
+
     const app = express();
     const PORT = process.env.PORT || 3000;
 
     const logger = pinoHttp();
+
+    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
     app.use("/photos", express.static(path.resolve("public/photos")));
 

@@ -125,3 +125,28 @@ export async function resetPassword(newPassword, token) {
         throw error;
     }
 }
+
+export async function loginOrRegister(payload) {
+    const user = await User.findOne({ email: payload.email });
+
+    if (user === null) {
+        const password = await bcrypt.hash(
+            crypto.randomBytes(30).toString("base64"), 10
+        );
+
+        const createdUser = await User.create({
+            name: payload.name,
+            email: payload.email,
+            password
+        });
+
+        const sessionData = generateSession(createdUser._id);
+        return Session.create(sessionData);
+    }
+
+    await Session.deleteOne({ userId: user._id });
+
+    const sessionData = generateSession(user._id);
+    return Session.create(sessionData);
+
+}

@@ -1,0 +1,48 @@
+tags:
+  - Contacts
+summary: Get all contacts
+operationId: getAllContacts
+description: Get all contacts
+security:
+  - bearerAuth: []
+parameters:
+  - name: page
+    in: query
+    description: Page number for pagination.
+    required: false
+    schema:
+      type: integer
+      example: 1
+  - name: perPage
+    in: query
+    description: Number of contacts per page.
+    required: false
+    schema:
+      type: integer
+      example: 10
+responses:
+  '200':
+    description: Successfully retrieved list of contacts.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully found contacts!
+            data:
+              type: array
+              items:
+                $ref: ../../components/schemas/contact.yaml
+  '404':
+    $ref: ../../components/responses/404.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml

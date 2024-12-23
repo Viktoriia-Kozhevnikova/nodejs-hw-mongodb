@@ -3,8 +3,8 @@ import express from "express";
 import { validateBody } from "../middlewares/validateBody.js";
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 
-import { registerShema, loginShema, requestResetPasswordSchema, resetPasswordSchema } from "../validation/auth.js";
-import { registerController, loginController, logoutController, refreshController, requestResetPasswordController, resetPasswordController } from "../controllers/auth.js";
+import { registerShema, loginShema, requestResetPasswordSchema, resetPasswordSchema, confirmOAuthShema } from "../validation/auth.js";
+import { registerController, loginController, logoutController, refreshController, requestResetPasswordController, resetPasswordController, getOAuthURLController, confirmOAuthController } from "../controllers/auth.js";
 
 
 const router = express.Router();
@@ -20,7 +20,10 @@ router.post("/refresh", ctrlWrapper(refreshController));
 
 router.post("/send-reset-email", jsonParser, validateBody(requestResetPasswordSchema), ctrlWrapper(requestResetPasswordController));
 
-router.post("/reset-pwd", jsonParser , validateBody(resetPasswordSchema), ctrlWrapper(resetPasswordController));
+router.post("/reset-pwd", jsonParser, validateBody(resetPasswordSchema), ctrlWrapper(resetPasswordController));
 
+router.get("/get-oauth-url", ctrlWrapper(getOAuthURLController));
+
+router.post("/confirm-oauth", jsonParser, validateBody(confirmOAuthShema), ctrlWrapper(confirmOAuthController));
 
 export default router;

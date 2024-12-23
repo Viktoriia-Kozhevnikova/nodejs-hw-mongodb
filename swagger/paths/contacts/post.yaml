@@ -1,0 +1,72 @@
+tags:
+  - Contacts
+summary: Create new contact
+operationId: createContact
+description: Create a new contact in the database with the provided information.
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - email
+          - isFavourite
+          - contactType
+          - photo
+        properties:
+          name:
+            description: Full name of the contact.
+            type: string
+            example: 'Jane Doe'
+          phoneNumber:
+            description: Phone number of the contact.
+            type: string
+            example: '+380858200007'
+          email:
+            description: Email address of the contact.
+            type: string
+            example: 'jane.doe@example.com'
+          isFavourite:
+            description: Indicates if the contact is marked as favourite.
+            type: boolean
+            example: true
+            default: false
+          contactType:
+            description: Type of contact (work, personal, home).
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: 'home'
+            default: 'personal'
+          photo:
+            description: Contact's photo.
+            type: string
+            format: binary
+responses:
+  '201':
+    description: Successfully created a new contact.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully created a contact!
+            data:
+              $ref: ../../components/schemas/contact.yaml
+  '401':
+    $ref: ../../components/responses/401.yaml
+  '500':
+    $ref: ../../components/responses/500.yaml
