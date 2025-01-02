@@ -21,22 +21,32 @@ requestBody:
         type: object
         properties:
           name:
+            description: Full name of the contact.
             type: string
             example: 'Jane Doe'
-          phoneNumber:
-            type: string
-            example: '+380858200007'
           email:
+            description: Email address of the contact.
             type: string
             example: 'jane.doe@example.com'
+          phoneNumber:
+            description: Phone number of the contact.
+            type: string
+            example: '+380858200007'
           isFavourite:
+            description: Indicates if the contact is marked as favourite.
             type: boolean
             example: true
             default: false
           contactType:
+            description: Type of contact (work, personal, home).
             type: string
             enum: ['work', 'home', 'personal']
             example: 'home'
+            default: 'personal'
+          photo:
+            description: Contact's photo.
+            type: string
+            format: binary
 responses:
   '200':
     description: Successfully updated the contact.
@@ -46,6 +56,8 @@ responses:
           $ref: ../../../components/schemas/contact.yaml
   '400':
     description: Invalid ID for updating the contact.
+  '401':
+    $ref: ../../../components/responses/401.yaml
   '404':
     $ref: ../../../components/responses/404.yaml
   '500':

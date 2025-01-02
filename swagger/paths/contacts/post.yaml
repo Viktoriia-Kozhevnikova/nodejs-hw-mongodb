@@ -23,14 +23,14 @@ requestBody:
             description: Full name of the contact.
             type: string
             example: 'Jane Doe'
-          phoneNumber:
-            description: Phone number of the contact.
-            type: string
-            example: '+380858200007'
           email:
             description: Email address of the contact.
             type: string
             example: 'jane.doe@example.com'
+          phoneNumber:
+            description: Phone number of the contact.
+            type: string
+            example: '+380858200007'
           isFavourite:
             description: Indicates if the contact is marked as favourite.
             type: boolean
