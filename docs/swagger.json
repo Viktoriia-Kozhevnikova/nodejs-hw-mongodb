@@ -12,9 +12,6 @@
   "servers": [
     {
       "url": "https://nodejs-hw-mongodb-q8mu.onrender.com"
-    },
-    {
-      "url": "http://127.0.0.1:3000"
     }
   ],
   "tags": [
