@@ -14,10 +14,7 @@ requestBody:
         required:
           - name
           - phoneNumber
-          - email
-          - isFavourite
           - contactType
-          - photo
         properties:
           name:
             description: Full name of the contact.
@@ -66,6 +63,22 @@ responses:
               example: Successfully created a contact!
             data:
               $ref: ../../components/schemas/contact.yaml
+  '400':
+    description: Bad Request – Missing or invalid fields.
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+          properties:
+            status:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Required fields are missing or invalid.
   '401':
     $ref: ../../components/responses/401.yaml
   '500':

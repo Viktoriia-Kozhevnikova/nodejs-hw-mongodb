@@ -107,9 +107,6 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -136,10 +133,7 @@
                 "required": [
                   "name",
                   "phoneNumber",
-                  "email",
-                  "isFavourite",
-                  "contactType",
-                  "photo"
+                  "contactType"
                 ],
                 "properties": {
                   "name": {
@@ -213,6 +207,30 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request – Missing or invalid fields.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Required fields are missing or invalid."
+                    }
+                  }
+                }
+              }
+            }
+          },
           "401": {
             "$ref": "#/components/responses/401"
           },
@@ -275,6 +293,9 @@
               }
             }
           },
+          "400": {
+            "description": "Invalid ID format."
+          },
           "401": {
             "$ref": "#/components/responses/401"
           },
@@ -313,7 +334,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -409,6 +430,9 @@
         "responses": {
           "204": {
             "description": "Successfully deleted the contact."
+          },
+          "400": {
+            "description": "Invalid ID for deleting the contact."
           },
           "401": {
             "$ref": "#/components/responses/401"

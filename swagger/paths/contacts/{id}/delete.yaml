@@ -14,6 +14,8 @@ parameters:
 responses:
   '204':
     description: Successfully deleted the contact.
+  '400':
+    description: Invalid ID for deleting the contact.
   '401':
     $ref: ../../../components/responses/401.yaml
   '404':
